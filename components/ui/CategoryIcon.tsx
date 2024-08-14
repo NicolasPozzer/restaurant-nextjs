@@ -1,6 +1,8 @@
 import Image from "next/image" // Para usar el metodo de mostrar imagenes
-//optimizado de next
+//optimizado de imagenes de next
 import { Category } from "@prisma/client"
+//optimizado de router de next
+import Link from "next/link"
 
 type CategoryIconProps = {
     category: Category
@@ -19,10 +21,11 @@ export default function CategoryIcon({category}: CategoryIconProps) {
             />
         </div>
 
-        <p
+        <Link
             className="text-xl font-bold cursor-pointer"
+            href={`/order/${category.slug}`}
         >
-        {category.name}</p>
+        {category.name}</Link>
     </div>
   )
 }
