@@ -14,18 +14,41 @@ datasource db {
 }
 
 model Category {
-  id Int @id @default(autoincrement())
-  name String
-  slug String
+  id      Int       @id @default(autoincrement())
+  name    String
+  slug    String
   product Product[]
 }
 
 model Product {
-  id Int @id @default(autoincrement())
-  name String
-  price Float
-  image String
+  id         Int             @id @default(autoincrement())
+  name       String
+  price      Float
+  image      String
   categoryId Int
-  category Category @relation(fields: [categoryId], references: [id])
+  category   Category        @relation(fields: [categoryId], references: [id])
+  OrderItems OrderProducts[]
 }
 
+model Order {
+  id            Int             @id @default(autoincrement()) // -> Con Este
+  name          String
+  total         Float
+  date          DateTime        @default(now())
+  status        Boolean         @default(false)
+  orderReadyAt  DateTime? //Opcional con el "?"
+  orderProducts OrderProducts[] //relacion 1.1
+}
+
+// Esto Seria una relacion de muchos a muchos
+model OrderProducts {
+  id      Int @id @default(autoincrement())
+  orderId Int // -> Este
+
+  // Relacion 1.0
+  order Order @relation(fields: [orderId], references: [id])
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+}
